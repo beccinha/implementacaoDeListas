@@ -29,11 +29,8 @@ public class Lista {
 		if (inicio == null) {
 			System.out.println("Lista vazia");
 		} else {
-			auxiliar = inicio;
-			for (int i = 0; i < contador; i++) {
-				auxiliar.setNext(null);
-				auxiliar = auxiliar.getNext();
-			}
+			inicio = null;
+
 		}
 	}
 
@@ -64,6 +61,8 @@ public class Lista {
 		} while (x < 10);
 
 		System.out.println("Wait...");
+		printList();
+		cleanList();
 		printList();
 	}
 
