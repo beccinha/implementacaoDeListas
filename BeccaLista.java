@@ -1,3 +1,14 @@
+import org.omg.CORBA.Context;
+import org.omg.CORBA.ContextList;
+import org.omg.CORBA.DomainManager;
+import org.omg.CORBA.ExceptionList;
+import org.omg.CORBA.NVList;
+import org.omg.CORBA.NamedValue;
+import org.omg.CORBA.Object;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.Request;
+import org.omg.CORBA.SetOverrideType;
+import org.omg.SendingContext.RunTime;
 
 public class Lista {
 
@@ -49,8 +60,8 @@ public class Lista {
 		} else {
 			aux = head; /* Aponta o auxiliar para o inicio da lista */
 			while (aux != null) {
-				System.out.println(
-						aux.getInfo()); /* Imprimi a info do auxiliar */
+				System.out.print(
+						aux.getInfo() + " "); /* Imprimi a info do auxiliar */
 				aux = aux.getNext();/* Aponta o auxiliar para o proximo node */
 			}
 		}
@@ -82,8 +93,8 @@ public class Lista {
 
 	public static void searchElement(int numero) {
 		aux = head;
-		while (aux!= null && numero != aux.getInfo()) {
-			
+		while (aux != null && numero != aux.getInfo()) {
+
 			aux = aux.getNext();
 		}
 		if (aux == null) {
@@ -116,11 +127,16 @@ public class Lista {
 	}
 
 	private static int searchElementPosition(int numero, Node no) {
-		if (no.getInfo() == numero) {
-			return 0;
+		if (no == null) {
+			if (no.getInfo() == numero) {
+				return 0;
+			} else {
+				return 1 + searchElementPosition(numero, no.getNext());
+			}
 		} else {
-			return 1 + searchElementPosition(numero, no.getNext());
+			throw new RuntimeException();
 		}
+
 	}
 
 	@Override
