@@ -56,61 +56,67 @@ public class Lista {
 		}
 	}
 
-    public static void delete(int numero) { // Deleta um node
-    	 
-        int position = searchElementPosition(numero, head);
-        if(position == 0){
-        	head = head.getNext();
-        } else {
-        	aux = head;
-        	while(aux.getNext().getInfo() != numero){
-        		aux = aux.getNext();
-        	}
-        	aux.setNext(aux.getNext().getNext());
-        }
- 
-    }
+	public static void delete(int numero) { // Deleta um node
+
+		int position = searchElementPosition(numero, head);
+		if (position == 0) {
+			head = head.getNext();
+		} else {
+			aux = head;
+			while (aux.getNext().getInfo() != numero) {
+				aux = aux.getNext();
+			}
+			aux.setNext(aux.getNext().getNext());
+		}
+
+	}
 
 	public static void cleanList() {
 		if (head == null) {
 			System.out.println("Lista já está vazia");
 			// TODO Exceção
 		} else {
-			head.setNext(null);
+			head = null;
 		}
 	}
 
 	public static void searchElement(int numero) {
-		if (numero == aux.getInfo()) {
-			aux = head;
-			while (numero != aux.getInfo()) {
-				aux = aux.getNext();
-			}
-			System.out.println("O numero esta na lista!");
-		} else {
-			System.out.println("Esse número não se encontra na lista!");
-			// TODO Exceção
+		aux = head;
+		while (aux!= null && numero != aux.getInfo()) {
+			
+			aux = aux.getNext();
 		}
+		if (aux == null) {
+			System.out.println("Esse número não se encontra na lista!");
+		} else {
+			System.out.println("O numero esta na lista!");
+		}
+
 	}
 
-	public static boolean getElement(int numero) {
-		boolean retorno = false;
-		if (numero == aux.getInfo()) {
-			aux = head;
-			while (numero != aux.getInfo()) {
-				aux = aux.getNext();
-			}
-			retorno = true;
+	public static int getElement(int numero) {
+		int retorno = 0;
+		if (numero == 0) {
+			retorno = head.getInfo();
 		} else {
-			System.out.println("Esse número não se encontra na lista!");
-			// TODO Exceção
+			int contador = 0;
+			head = aux;
+			while (contador < numero) {
+				if (aux == null) {
+					System.out.println("Posição invalida!");
+					break;
+				} else {
+					contador++;
+					aux = aux.getNext();
+				}
+			}
+			retorno = aux.getInfo();
 		}
 		return retorno;
 	}
 
-	
-	private static int searchElementPosition(int numero, Node no){
-		if(no.getInfo() == numero){
+	private static int searchElementPosition(int numero, Node no) {
+		if (no.getInfo() == numero) {
 			return 0;
 		} else {
 			return 1 + searchElementPosition(numero, no.getNext());
