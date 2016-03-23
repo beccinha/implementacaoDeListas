@@ -1,114 +1,120 @@
 
 public class Lista {
 
-	private static Node node;
+	private static Node head;
 	private static Node aux;/* Serve para pecorrer a lista */
-	private static int contador;
 
 	public Lista() {
 		// inicio = new Node(info);
 	}
 
 	public static void addElement(int numero) {
-		if (node == null) {/* caso a lista não esteja criada */
-			node = new Node(numero);
-			// System.out.println("criou a primeira!");
-			/* só pra saber se add a primeira */
+
+		if (head == null) {/* caso a lista não esteja criada */
+			head = new Node(numero);
+
 		} else {/* vai da sequencia ao resto da sequencia */
-			aux = node;
+			aux = head;
 			if (aux.getInfo() > numero) {
-				Node aux2 = new Node(numero);/*
+				Node aux2 = new Node(
+						numero);/*
 								 * foi criado um aux temporario para armazenar o
 								 * resto da lista
 								 */
 				aux2.setNext(aux);
-				node = aux2;
+				head = aux2;
 			} else if (aux.getInfo() < numero) {
-				do {
-					aux = aux.getNext();
-				} while (aux.getInfo() < numero);
-				Node aux2 = new Node(numero);
+				while (aux.getNext() != null) {
+					if (aux.getNext().getInfo() < numero)
+						aux = aux.getNext();
+					else
+						break;
+				}
+				Node aux2 = aux.getNext();
+				aux.setNext(new Node(numero));
+				aux = aux.getNext();
 				aux.setNext(aux2);
 			} else {
 				System.out.println("Números iguais, não adiciona");
-				// TODO Exceção
-				
+				// TODO
 			}
 		}
 
 	}
-
-	/*
-	 * private static void ordenarElementos(Node list) { Node aux; if (list !=
-	 * null) { if(aux.getNext().getInfo() < ){
-	 * 
-	 * } } else { System.out.println("Lista vazia!"); } }
-	 */
 
 	public static void printList() { // TODO add exception
-		if (node == null) { // Verifica se a lista esta vazia
+		if (head == null) { // Verifica se a lista esta vazia
 			System.out.println("Lista vazia");
-			//TODO Exceção
-		} else {
-			aux = node; /* Aponta o auxiliar para o inicio da lista */
-			do {
-				System.out.println(aux.getInfo()); /* Imprimi a info do	auxiliar */
-				aux = aux.getNext();/* Aponta o auxiliar para o proximo node */
-			} while (aux.getNext() != null); 
-		}
-	}
-
-	public static void delete(int numero) {
-		if (numero == aux.getInfo()) {
-			if (numero == aux.getInfo()) {
-				aux = node;
-				do{
-					aux = aux.getNext();
-				} while(numero != aux.getInfo());
-				
-			}
-		} else {
-			System.out.println("Não exite esse elemento!");
 			// TODO Exceção
+		} else {
+			aux = head; /* Aponta o auxiliar para o inicio da lista */
+			while (aux != null) {
+				System.out.println(
+						aux.getInfo()); /* Imprimi a info do auxiliar */
+				aux = aux.getNext();/* Aponta o auxiliar para o proximo node */
+			}
 		}
-
 	}
+
+    public static void delete(int numero) { // Deleta um node
+    	 
+        int position = searchElementPosition(numero, head);
+        if(position == 0){
+        	head = head.getNext();
+        } else {
+        	aux = head;
+        	while(aux.getNext().getInfo() != numero){
+        		aux = aux.getNext();
+        	}
+        	aux.setNext(aux.getNext().getNext());
+        }
+ 
+    }
 
 	public static void cleanList() {
-		if (node == null) {
+		if (head == null) {
 			System.out.println("Lista já está vazia");
-			//TODO Exceção
+			// TODO Exceção
 		} else {
-			node.setNext(null);
+			head.setNext(null);
 		}
 	}
 
 	public static void searchElement(int numero) {
 		if (numero == aux.getInfo()) {
-			aux = node;
-			do{
+			aux = head;
+			while (numero != aux.getInfo()) {
 				aux = aux.getNext();
-			} while(numero != aux.getInfo());
-				System.out.println("O numero esta na lista!");
+			}
+			System.out.println("O numero esta na lista!");
 		} else {
 			System.out.println("Esse número não se encontra na lista!");
-			//TODO Exceção
+			// TODO Exceção
 		}
 	}
 
-	public static Node getElement(int numero) {
-		Node retorno = null;
+	public static boolean getElement(int numero) {
+		boolean retorno = false;
 		if (numero == aux.getInfo()) {
-			aux = node;
-			do{
+			aux = head;
+			while (numero != aux.getInfo()) {
 				aux = aux.getNext();
-			} while(numero != aux.getInfo());
-				retorno = aux;
+			}
+			retorno = true;
 		} else {
 			System.out.println("Esse número não se encontra na lista!");
-			//TODO Exceção
+			// TODO Exceção
 		}
 		return retorno;
+	}
+
+	
+	private static int searchElementPosition(int numero, Node no){
+		if(no.getInfo() == numero){
+			return 0;
+		} else {
+			return 1 + searchElementPosition(numero, no.getNext());
+		}
 	}
 
 	@Override
